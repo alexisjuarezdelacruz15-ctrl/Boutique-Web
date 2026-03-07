@@ -1,53 +1,101 @@
 <!DOCTYPE html>
-<html lange="es">
+<html lang="es">
+    <div id="login">
+        <div class="login-box">
+            <h2>cuanta</h2>
+            <input type="text" id="usuario" placeholder="usuario">
+            <input type="password" id="password" placeholder="contraseña">
+            <button onclick="registrar()">registrarse</button>
+            <button onclick="login()">entrar</button>
+        </div>
+    </div>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>Boutique</title>  
+        <title>MADYSTORE</title>  
         <link rel="Stylesheet" href="Styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+         rel="Stylesheet">
     </head>
     <body>
+        <a href="https://wa.me/8994992406" class="whatsapp" target="_blank">
+            W
+        </a>
         <header>
-            <h1>Boutique Elegant</h1>
+            <h1>MADYSTORE</h1>
             <nav>
-                <a href="#inicio">Inicio</a>
-                <a href="#productos">Productos</a>
-                <a href="#nosotros">Nosotros</a>
-                <a href="#contacto">Contacto</a>
+                <a href="#inicio">inicio</a>
+                <a href="#productos">productos</a>
+                <a href="#nosotros">nosotros</a>
+                <a href="#contacto">contacto</a>
             </nav>
+             <div class="carrito-icono"
+                onclick="togglecarrito()">
+                🛒carrito (<span id="contador-carrito">0</span>)
+            </div>
+            <div id="carrito-panel" class="carrito-panel">
+                <h3>Tu carrito</h3>
+                <ul id="lista-carrito" ></ul>
+                <p>total: $<span id="total">0</span> MXN</p>
+                <button onclick="vaciarcarrito()">vaciar carrito</button>
+            </div>
+            <div class="busqueda">
+                <input type="text" id="buscar" placeholder="buscar productos..."
+                onkeyup="buscarproducto()">
+            </div>
         </header>
-        <section id="Inicio">
-            <h2>Bienvenidos</h2>
-            <p>Descubre nuestra coleccion exclusiva de moda.</p>
+        <section id="inicio" class="hero">
+            <h2>Moda que define tu estilo</h2>
+            <p>Descubre nuestra nueva coleccion 2026</p>
         </section>
-
+        <div class="categorias">
+            <button onclick="filtrar('todos')">todos</button>
+            <button onclick="filtrar('ropa')">ropa</button>
+            <button onclick="filtrar('accesorio')">accesorio</button>
+            <button onclick="filtrar('calzado')">calzado</button>
+        </div>
         <section id="productos" class="productos">
             <h2>Nuestros Productos</h2>
-            <div class="Contenedor-Productos">
-                <div class="producto">
-                    <img
-                    src="htpps://via.placeholder.com/200"
-                    alt="Producto 1">
-                    <h3>Babydool dress</h3>
-                    <p>$1000 MXN</p>
-                </div>
-                <div class="producto">
-                    <img
-                    src="https://via.placeholder.com/200"
-                    alt="Producto 2">
-                    <h3>Bolsa Satchel</h3>
+            <div class="contenedor-productos">
+                <div class="producto" data-categoria="ropa">
+                    <img src="imagenes/Chamarra.avif"alt="producto 1">
+                    <h3>Chamarra</h3>
                     <p>$1500 MXN</p>
+                    <button onclick="agregarcarrito('Vestido',1500,'imagenes/Chamarra.avif')">
+                        Agregar al carrito
+                    </button>
                 </div>
-                <div class="producto">
-                    <img
-                    src="https://via.placeholder.com/200"
-                    alt="Producto 3">
-                    <h3>Botin Ruth</h3>
+                <div class="producto" data-categoria="accesorio">
+                    <img src="imagenes/Bolsa.jpg"alt="producto 2">
+                    <h3>Bolsa</h3>
+                    <p>$2000 MXN</p>
+                     <button onclick="agregarcarrito('Bolsa',2000,'imagenes/Bolsa.jpg')">
+                        Agregar al carrito
+                    </button>
+                    <button onclick="mostrarpago()">finalizar compra</button>
+                    <div id="pago" class="pago-modal">
+                        <h3>metodo de pago</h3>
+                        <div class="metodos">
+                            <button onclick="pagar()">tarjeta</button>
+                            <button onclick="pagar()">paypal</button>
+                            <button onclick="pagar()">oxxo</button>
+                        </div>
+                        <button onclick="pagar()" class="pagar-btn">
+                            confirmar pago
+                        </button>
+                    </div>
+                </div>
+                <div class="producto" data-categoria="calzado">
+                    <img src="imagenes/Botas.jpg"alt="producto 3">
+                    <h3>Botas</h3>
                     <p>$2260 MXN</p>
+                     <button onclick="agregarcarrito('Botas',2260,'imagenes/Botas.jpg')">
+                        Agregar al carrito
+                    </button>
                 </div>
             </div>
         </section>
-        <section id="nosotros" class="nosotors">
+        <section id="nosotros" class="nosotros">
             <h2>Sobre Nosotros</h2>
             <p>
                 Somos una boutique dedicada a ofrecer moda moderna y elegante.
@@ -56,7 +104,7 @@
             </p>
         </section>
         <section id="contacto" class="contacto">
-            <h2>Contactos</h2>
+            <h2>Contacto</h2>
             <form>
                 <input type="text" placeholder="Nombre" required>
                 <input type="email" placeholder="Correo electronico" required>
@@ -64,8 +112,20 @@
                 <button type="submit">Enviar</button>
             </form>
         </section>
-    </body>
-    <footer>
+          <footer>
         <p>© 2026 Boutique Elegant / Siguenos en redes sociales</p>
-    </footer>
+     </footer>
+        <script src="Script.js"></script>
+        <div id="modalpago" class="modalpago">
+            <div class="pago-contenido">
+                <h2>metodo de pago</h2>
+                <div class="metodos">
+                    <button onclick="pagar()">💳tarjeta</button>
+                    <button onclick="pagar()">🅿️paypal</button>
+                    <button onclick="pagar()">🏪oxxo</button>
+                </div>
+                <button class="cancelar" onclick="cerrarpago()">cancelar</button>
+            </div>
+        </div>
+    </body>
 </html>
